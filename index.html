@@ -10,8 +10,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
         
         :root {
-            --primary: #f97316; /* Naranja inspirado en el logo */
-            --secondary: #0ea5e9; /* Azul inspirado en el logo */
+            --primary: #f97316; 
+            --secondary: #0ea5e9; 
             --bg-dark: #020617;
             --card-bg: rgba(30, 41, 59, 0.4);
         }
@@ -46,7 +46,27 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Visor de Imagen con Lupa y Zoom Pro */
+        .old-price {
+            text-decoration: line-through;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-offer {
+            background: linear-gradient(45deg, #f97316, #ef4444);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-promo-fire {
+            background: linear-gradient(45deg, #f97316, #ef4444);
+        }
+        
+        .btn-promo-fire.active {
+            outline: 2px solid white;
+            outline-offset: 2px;
+        }
+
         #lightbox {
             display: none;
             position: fixed;
@@ -108,7 +128,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            transition: all 0.2;
+            transition: all 0.2s;
         }
 
         .zoom-btn:hover {
@@ -122,7 +142,6 @@
             color: white;
         }
 
-        /* Efecto de Logo en Fondo de Header */
         .header-bg-logo {
             position: absolute;
             top: 50%;
@@ -154,16 +173,16 @@
         </div>
     </div>
 
-    <!-- Navegación con Logo -->
+    <!-- Navegación -->
     <nav class="sticky top-0 z-[100] bg-slate-950/80 backdrop-blur-xl border-b border-white/5 px-6 py-3">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <!-- LOGO: Reemplaza con tu link de PostImages -->
-                <img src="https://i.postimg.cc/rpjLpm6W/logo-catalogo.jpg" alt="Logo" class="w-12 h-12 object-contain rounded-lg" onerror="this.src='https://i.postimg.cc/mD3m98n4/logo-placeholder.png'">
+
+   <!---------------- LOGO: Reemplaza con tu link de PostImages ---------------------->
+
+                <img src="https://i.postimg.cc/rpjLpm6W/logo-catalogo.jpg" alt="Logo" class="w-12 h-12 object-contain rounded-lg">
                 <div>
-                    <h1 class="brand-font text-lg leading-tight uppercase">
-                        OPPORTUNITY
-                    </h1>
+                    <h1 class="brand-font text-lg leading-tight uppercase">OPPORTUNITY</h1>
                     <p class="text-[10px] text-orange-500 font-bold tracking-[0.2em] -mt-1 uppercase">CTES STORE</p>
                 </div>
             </div>
@@ -175,9 +194,7 @@
         </div>
     </nav>
 
-    <!-- Contenido Principal -->
     <div class="flex-grow">
-        <!-- Encabezado -->
         <header class="relative pt-16 pb-12 px-6 text-center max-w-4xl mx-auto overflow-hidden">
             <!-- Logo de Fondo en el Título -->
             <img src="TU_LINK_DE_LOGO_AQUI" alt="" class="header-bg-logo" onerror="this.style.display='none'">
@@ -187,13 +204,17 @@
                     Innovación en cada producto
                 </div>
                 <h2 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase leading-none">
-                    NUEVA <span class="text-orange-500">COLECCIÓN</span>
+                    OPPORTUNITY <span class="text-orange-500"></span>
+                <h2 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase leading-none">
+                    <span class="text-orange-500">-CTES STORE-</span>
                 </h2>
                 
-                <!-- Bloque de Leyendas Informativas -->
                 <div class="flex flex-col gap-1.5 mb-8">
                     <p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-[0.25em]">
-                        * Precios sujetos a modificación *
+
+   <!---------------- FECHA: Reemplaza LA FECHA DE LOS PRECIOS AQUI ---------------------->
+
+                        * Precios validos hasta el 30/04/2026 sujetos a modificación *
                     </p>
                     <p class="text-[10px] md:text-xs text-orange-500/80 font-bold uppercase tracking-[0.2em]">
                         7 Días de Garantía
@@ -203,7 +224,6 @@
                     </p>
                 </div>
                 
-                <!-- Buscador -->
                 <div class="relative group max-w-2xl mx-auto mt-6">
                     <i class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-orange-500"></i>
                     <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="¿Qué estás buscando hoy?" 
@@ -212,23 +232,22 @@
             </div>
         </header>
 
-        <!-- Filtros -->
         <div id="category-filters" class="max-w-7xl mx-auto px-6 mb-12 flex flex-wrap justify-center gap-3"></div>
 
-        <!-- Cuadrícula -->
         <main class="max-w-7xl mx-auto px-6 pb-24">
             <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
         </main>
     </div>
 
+
+   <!---------------- LOGO: Reemplaza con tu link de PostImages ---------------------->
     <!-- PIE DE PÁGINA (FOOTER) -->
     <footer class="bg-slate-950 border-t border-white/5 pt-16 pb-8 px-6">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-                <!-- Columna Marca -->
                 <div class="flex flex-col items-center md:items-start">
                     <div class="flex items-center gap-3 mb-4">
-                        <img src="https://i.postimg.cc/rpjLpm6W/logo-catalogo.jpg" alt="Logo" class="w-10 h-10 object-contain rounded-lg" onerror="this.src='https://i.postimg.cc/mD3m98n4/logo-placeholder.png'">
+                        <img src="https://i.postimg.cc/rpjLpm6W/logo-catalogo.jpg" alt="Logo" class="w-10 h-10 object-contain rounded-lg">
                         <div>
                             <h4 class="brand-font text-base uppercase">OPPORTUNITY</h4>
                             <p class="text-[8px] text-orange-500 font-bold tracking-widest -mt-1 uppercase">CTES STORE</p>
@@ -239,74 +258,80 @@
                     </p>
                 </div>
 
-                <!-- Columna Enlaces - REDES ACTUALIZADAS -->
                 <div class="flex flex-col items-center">
                     <h4 class="text-xs font-black uppercase tracking-widest text-white mb-6">Nuestras Redes</h4>
-                    <div class="flex gap-4">
-                        <!-- WhatsApp -->
+                    <div class="flex flex-wrap justify-center gap-4">
                         <a href="https://wa.me/5493794853528" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
                             <i class="fa-brands fa-whatsapp text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
-                        <!-- Instagram -->
-                        <a href="https://www.instagram.com/opportunityctesstore?igsh=NmkyMmg0cWJmazI3" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
-                            <i class="fa-brands fa-instagram text-xl text-slate-400 group-hover:text-white"></i>
-                        </a>
-                        <!-- Facebook -->
-                        <a href="https://www.facebook.com/share/1QN5PtVNwJ/" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
+                        <a href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all group">
                             <i class="fa-brands fa-facebook-f text-xl text-slate-400 group-hover:text-white"></i>
+                        </a>
+                        <a href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-black hover:border-slate-700 transition-all group">
+                            <i class="fa-brands fa-tiktok text-xl text-slate-400 group-hover:text-white"></i>
+                        </a>
+                        <a href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
+                            <i class="fa-brands fa-instagram text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Columna Info -->
                 <div class="flex flex-col items-center md:items-end">
                     <h4 class="text-xs font-black uppercase tracking-widest text-white mb-6">Atención al Cliente</h4>
                     <div class="text-center md:text-right">
                         <p class="text-slate-400 text-sm mb-2"><i class="fa-solid fa-location-dot mr-2 text-orange-500"></i> Corrientes Capital, Argentina</p>
-                        <p class="text-slate-400 text-sm"><i class="fa-solid fa-clock mr-2 text-orange-500"></i> Lunes a Sábados: 09:00 - 20:00</p>
+                        <p class="text-slate-400 text-sm font-bold text-orange-400"><i class="fa-solid fa-truck mr-2"></i> Venta Online con Envíos</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Copyright -->
             <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-slate-500 text-[10px] uppercase font-bold tracking-widest">
-                    &copy; 2024 Opportunity Ctes Store. Todos los derechos reservados.
+                    &copy; 2026 Opportunity Ctes Store. Todos los derechos reservados.
                 </p>
-                <div class="flex gap-6">
-                    <span class="text-[9px] text-slate-600 font-bold uppercase tracking-widest">Tecnología</span>
-                    <span class="text-[9px] text-slate-600 font-bold uppercase tracking-widest">Calidad</span>
-                    <span class="text-[9px] text-slate-600 font-bold uppercase tracking-widest">Confianza</span>
-                </div>
             </div>
         </div>
     </footer>
 
-  <script>
-        // ==========================================
+    <script>
+       // ==========================================
         // TU  PRODUCTOS (Modifica aquí)
         // ==========================================
         const products = [
-        {
-                code: "10001 ",
-                category: "audio",
-                name: "PARLANTE UNI-T06 (Para la ducha y la pileta) (Waterproof, pro agua)(Negro). ",
-                price:15997,
-                stock:1,
-                image: "https://i.postimg.cc/CxKmgYqY/PARLANTE-UNI-T06.jpg "
+            {
+                code: "10001",
+                category: "AUDIO",
+                name: "PARLANTE UNI-T06 (Para la ducha y la pileta) (Waterproof, pro agua)(Negro)",
+                price: 15900,
+                oldPrice: 0,
+                isOffer: false,
+                stock: 1,
+                image: "https://i.postimg.cc/CxKmgYqY/PARLANTE-UNI-T06.jpg"
+            },
+            {
+                code: "20001",
+                category: "ILUMINACION",
+                name: "LAMPARA SOLAR MATA MOSQUITO CON PANEL SOLAR Y SENSOR DE MOVIMIENTO",
+                price: 17249,
+                oldPrice: 22000,
+                isOffer: true,
+                stock: 1,
+                image: "https://i.postimg.cc/pLXvDbMT/LAMPARA-SOLAR-MATA-MOSQUITO-CON-PANEL-SOLAR-Y-SENSOR-DE-MOVIMIENTO.jpg"
             },
  {
                 code: "10002 ",
-                category: "audio",
+                category: "AUDIO",
                 name: "PARLANTE 3 X2 GTS-1560(Negro). ",
                 price:25933,
+                oldPrice: 0,
+                isOffer: false,
                 stock:1,
                 image: "https://i.postimg.cc/brWymmxG/PARLANTE-3PULGADX2-GTS-1560.jpg "
             },
 
   {
                 code: "10003 ",
-                category: "audio",
+                category: "AUDIO",
                 name: "PARLANTE 3'' GTS-1867  ",
                 price:9546,
                 stock:1,
@@ -314,23 +339,15 @@
             },
  {
                 code: "10004 ",
-                category: "audio",
+                category: "AUDIO",
                 name: "PARLANTE UNI-RETROILUMINADO 3 PULGADAS. ",
                 price:9022,
                 stock:3,
                 image: "https://i.postimg.cc/CKxKLnxk/PARLANTE-UNI-RETROILUMINADO-3-PULGADAS.jpg "
             },
  {
-                code: "20001 ",
-                category: "iluminacion",
-                name: "LAMPARA SOLAR MATA MOSQUITO CON PANEL SOLAR Y SENSOR DE MOVIMIENTO ",
-                price:17249,
-                stock:1,
-                image: "https://i.postimg.cc/pLXvDbMT/LAMPARA-SOLAR-MATA-MOSQUITO-CON-PANEL-SOLAR-Y-SENSOR-DE-MOVIMIENTO.jpg "
-            },
- {
                 code: "20002 ",
-                category: "iluminacion",
+                category: "ILUMINACION",
                 name: "LAMPARA ELECTRICA LED PARA MOSQUITOS  ",
                 price:10499,
                 stock:1,
@@ -338,7 +355,7 @@
             },
  {
                 code: "20003 ",
-                category: "iluminacion",
+                category: "ILUMINACION",
                 name: "FOCO RGB CON CONTROL REMOTO ",
                 price:9749,
                 stock:1,
@@ -346,7 +363,7 @@
             },
  {
                 code: "20004 ",
-                category: "iluminacion",
+                category: "ILUMINACION",
                 name: "LUZ DE EMERGENCIA 45 LED  ",
                 price:12167,
                 stock:4,
@@ -354,7 +371,7 @@
             },
  {
                 code: "20005 ",
-                category: "iluminacion",
+                category: "ILUMINACION",
                 name: "LUZ ESFERA CON SATURNO EN 7 COLORES ",
                 price:6749,
                 stock:1,
@@ -362,7 +379,7 @@
             },
  {
                 code: "30001 ",
-                category: "AURICULARES",
+                category: "RELOJES",
                 name: "Smartwatch ZL123 Negro (mejor que ZL02).",
                 price:31485,
                 stock:1,
@@ -434,7 +451,7 @@
             },
  {
                 code: "40001 ",
-                category: "varios",
+                category: "VARIOS",
                 name: "CALENTADOR DE TAZAS ",
                 price:8699,
                 stock:0,
@@ -442,7 +459,7 @@
             },
  {
                 code: "40002 ",
-                category: "varios",
+                category: "VARIOS",
                 name: "ESTUFA HALÓGENA 2 VELAS  ",
                 price:26957,
                 stock:4,
@@ -451,7 +468,7 @@
 
  {
                 code: "40003 ",
-                category: "varios",
+                category: "VARIOS",
                 name: "TV BOX SMART CONVERTIDOR TV 6K FULL HD ",
                 price:39749,
                 stock:1,
@@ -460,17 +477,17 @@
 
             {
                 code: "VAR-099",
-                category: "varios",
+                category: "VARIOS",
                 name: "Cargador Carga Rápida 20W",
                 price: 12000,
                 stock: 0,
                 image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?q=80&w=500"
             },
-            // Puedes seguir agregando objetos aquí siguiendo el mismo formato
         ];
 
         const WHATSAPP_NUMBER = "5493794853528";
         let currentFilter = "Todos";
+        let onlyOffers = false;
 
         // Lógica de Zoom y Movimiento
         let scale = 1;
@@ -487,7 +504,6 @@
             zoomImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
         }
 
-        // Mouse Events
         zoomContainer.onmousedown = (e) => {
             e.preventDefault();
             startX = e.clientX - pointX;
@@ -495,7 +511,6 @@
             isDragging = true;
         };
 
-        // Touch Events
         zoomContainer.ontouchstart = (e) => {
             if (e.touches.length === 1) {
                 isDragging = true;
@@ -530,9 +545,7 @@
         }
 
         function resetZoom() {
-            scale = 1;
-            pointX = 0;
-            pointY = 0;
+            scale = 1; pointX = 0; pointY = 0;
             setTransform();
         }
 
@@ -548,11 +561,24 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Renderizado
+        // Función para calcular porcentaje
+        function calculateDiscount(current, old) {
+            if (!old || old <= current) return null;
+            const diff = old - current;
+            return Math.round((diff / old) * 100);
+        }
+
         function renderGrid(items) {
             const grid = document.getElementById('product-grid');
-            grid.innerHTML = items.map(p => `
-                <div class="glass-card rounded-[2rem] overflow-hidden flex flex-col h-full">
+            grid.innerHTML = items.map(p => {
+                const discount = calculateDiscount(p.price, p.oldPrice);
+                return `
+                <div class="glass-card rounded-[2rem] overflow-hidden flex flex-col h-full relative">
+                    ${p.isOffer ? `
+                        <div class="absolute top-4 left-4 z-20 badge-offer text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest animate-pulse">
+                            Oferta 🔥 ${discount ? `${discount}% OFF` : ''}
+                        </div>
+                    ` : ''}
                     <div class="relative h-64 bg-slate-900 group cursor-zoom-in" onclick="openLightbox('${p.image}')">
                         <img src="${p.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-orange-600/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -562,24 +588,27 @@
                     <div class="p-8 flex flex-col flex-grow">
                         <div class="flex justify-between items-start mb-2">
                             <span class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">SKU: ${p.code}</span>
-                            <span class="text-[9px] ${p.stock > 0 ? 'text-green-400' : 'text-red-400'} font-bold uppercase tracking-widest">
+                            <span class="text-[9px] ${p.stock > 0 ? 'text-green-400' : 'text-red-400'} font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 rounded">
                                 ${p.stock > 0 ? `Stock: ${p.stock}` : 'Agotado'}
                             </span>
                         </div>
-                        <h3 class="text-sm font-bold mb-6 line-clamp-2 leading-snug text-slate-100">${p.name}</h3>
+                        <h3 class="text-sm font-bold mb-6 line-clamp-2 leading-snug text-slate-100 uppercase">${p.name}</h3>
                         <div class="mt-auto">
-                            <div class="flex items-baseline gap-1 mb-6">
-                                <span class="text-xs font-bold text-orange-500">$</span>
-                                <span class="text-4xl font-black price-text tracking-tighter">${p.price.toLocaleString('es-AR')}</span>
+                            <div class="mb-6">
+                                ${p.oldPrice ? `<div class="old-price">$${p.oldPrice.toLocaleString('es-AR')}</div>` : '<div class="h-5"></div>'}
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-xs font-bold text-orange-500">$</span>
+                                    <span class="text-4xl font-black price-text tracking-tighter">${p.price.toLocaleString('es-AR')}</span>
+                                </div>
                             </div>
                             <button onclick="sendOrder('${p.name}', '${p.code}', ${p.price})" 
-                                class="w-full bg-orange-500 text-white hover:bg-orange-600 py-4 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all shadow-lg shadow-orange-500/20">
+                                class="w-full bg-orange-500 text-white hover:bg-orange-600 py-4 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all shadow-lg shadow-orange-500/20 active:scale-95">
                                 <i class="fa-brands fa-whatsapp mr-2"></i> Me interesa
                             </button>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function filterProducts() {
@@ -587,27 +616,49 @@
             const filtered = products.filter(p => {
                 const matchesSearch = p.name.toLowerCase().includes(query) || p.code.toLowerCase().includes(query);
                 const matchesCategory = currentFilter === "Todos" || p.category === currentFilter;
-                return matchesSearch && matchesCategory;
+                const matchesOffer = !onlyOffers || p.isOffer;
+                return matchesSearch && matchesCategory && matchesOffer;
             });
             renderGrid(filtered);
         }
 
         function setCategory(cat) {
             currentFilter = cat;
+            onlyOffers = false;
             document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.toLowerCase() === cat.toLowerCase());
+                btn.classList.toggle('active', btn.innerText.trim() === cat);
             });
+            const offerBtn = document.getElementById('offer-btn');
+            if (offerBtn) offerBtn.classList.remove('active');
+            filterProducts();
+        }
+
+        function toggleOffers() {
+            onlyOffers = !onlyOffers;
+            currentFilter = "Todos";
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.trim() === 'Todos'));
+            const offerBtn = document.getElementById('offer-btn');
+            if (offerBtn) offerBtn.classList.toggle('active', onlyOffers);
             filterProducts();
         }
 
         function renderCategories() {
             const container = document.getElementById('category-filters');
             const cats = ["Todos", ...new Set(products.map(p => p.category))];
-            container.innerHTML = cats.map(c => `
+            
+            const html = cats.map(c => `
                 <button onclick="setCategory('${c}')" class="category-btn px-6 py-2 rounded-xl border border-white/5 bg-white/5 text-slate-400 text-[10px] font-bold uppercase tracking-widest transition-all ${c === 'Todos' ? 'active' : ''}">
                     ${c}
                 </button>
             `).join('');
+
+            const offerHtml = `
+                <button id="offer-btn" onclick="toggleOffers()" class="btn-promo-fire px-6 py-2 rounded-xl text-white text-[10px] font-black uppercase tracking-widest transition-all">
+                    OFERTAS 🔥
+                </button>
+            `;
+            
+            container.innerHTML = html + offerHtml;
         }
 
         function sendOrder(name, code, price) {
