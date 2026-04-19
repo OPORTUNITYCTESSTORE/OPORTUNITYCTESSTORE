@@ -58,11 +58,15 @@
             box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
         }
 
-        .btn-promo-fire {
-            background: linear-gradient(45deg, #f97316, #ef4444);
+        .badge-new {
+            background: linear-gradient(45deg, #0ea5e9, #2563eb);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
         }
+
+        .btn-promo-fire { background: linear-gradient(45deg, #f97316, #ef4444); }
+        .btn-new-launch { background: linear-gradient(45deg, #0ea5e9, #2563eb); }
         
-        .btn-promo-fire.active {
+        .btn-promo-fire.active, .btn-new-launch.active {
             outline: 2px solid white;
             outline-offset: 2px;
         }
@@ -102,6 +106,45 @@
             transform-origin: center;
             transition: transform 0.1s ease-out;
             user-select: none;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            pointer-events: none;
+            z-index: 1005;
+        }
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover { background: var(--primary); transform: scale(1.1); }
+        
+        #img-counter {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 1005;
         }
 
         .zoom-controls {
@@ -155,7 +198,7 @@
             pointer-events: none;
         }
 
-        /* ESTILOS DEL CARRITO (PUNTO 2) */
+        /* Estilos del Carrito */
         #cart-panel.active { transform: translateX(0); }
         #cart-overlay.active { display: block; opacity: 1; }
     </style>
@@ -163,12 +206,20 @@
 <body class="min-h-screen flex flex-col">
 
     <div id="lightbox">
+        <div id="img-counter">1 / 1</div>
         <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/50 hover:text-white text-4xl z-[1010] transition-colors">
             <i class="fa-solid fa-circle-xmark"></i>
         </button>
+        
+        <div class="gallery-nav">
+            <button class="nav-btn" onclick="prevImg()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-btn" onclick="nextImg()"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
         <div class="zoom-container" id="zoom-container">
             <img id="lightbox-img" src="" alt="Vista previa" draggable="false">
         </div>
+
         <div class="zoom-controls">
             <button class="zoom-btn" onclick="adjustZoom(-0.5)"><i class="fa-solid fa-minus"></i></button>
             <button class="zoom-btn" onclick="resetZoom()"><i class="fa-solid fa-arrows-rotate"></i></button>
@@ -203,6 +254,7 @@
                 <h2 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase leading-none">
                     OPPORTUNITY <span class="text-orange-500">-CTES STORE-</span>
                 </h2>
+                
                 <div class="flex flex-col gap-1.5 mb-8">
                     <p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-[0.25em]">
                         * Precios validos hasta el 30/04/2026 sujetos a modificación *
@@ -214,6 +266,7 @@
                         Somos Venta Online • Hacemos Envíos
                     </p>
                 </div>
+                
                 <div class="relative group max-w-2xl mx-auto mt-6">
                     <i class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-orange-500"></i>
                     <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="¿Qué estás buscando hoy?" 
@@ -246,6 +299,7 @@
             </button>
         </div>
     </div>
+
     <button onclick="toggleCart()" class="fixed bottom-6 right-6 w-16 h-16 bg-orange-500 text-white rounded-2xl shadow-2xl shadow-orange-500/40 z-[1500] flex items-center justify-center text-2xl active:scale-90 transition-transform">
         <i class="fa-solid fa-cart-shopping"></i>
         <span id="cart-count" class="absolute -top-2 -right-2 bg-white text-orange-600 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-orange-500">0</span>
@@ -266,23 +320,25 @@
                         Tu tienda de confianza en Corrientes. Calidad y tecnología al mejor precio del mercado.
                     </p>
                 </div>
+
                 <div class="flex flex-col items-center">
                     <h4 class="text-xs font-black uppercase tracking-widest text-white mb-6">Nuestras Redes</h4>
                     <div class="flex flex-wrap justify-center gap-4">
                         <a href="https://wa.me/5493794853528" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
                             <i class="fa-brands fa-whatsapp text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
-                        <a href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all group">
+                        <a href="https://www.facebook.com/share/1GSH5dyfVc/" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all group">
                             <i class="fa-brands fa-facebook-f text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
-                        <a href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-black hover:border-slate-700 transition-all group">
+                        <a href="https://www.tiktok.com/@opportunityctesstore?_r=1&_t=ZS-95ZVKDPIHrQ" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-black hover:border-slate-700 transition-all group">
                             <i class="fa-brands fa-tiktok text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
-                        <a href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
+                        <a href="https://www.instagram.com/opportunityctesstore?igsh=NmkyMmg0cWJmazI3" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
                             <i class="fa-brands fa-instagram text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
                     </div>
                 </div>
+
                 <div class="flex flex-col items-center md:items-end">
                     <h4 class="text-xs font-black uppercase tracking-widest text-white mb-6">Atención al Cliente</h4>
                     <div class="text-center md:text-right">
@@ -291,6 +347,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-slate-500 text-[10px] uppercase font-bold tracking-widest">
                     &copy; 2026 Opportunity Ctes Store. Todos los derechos reservados.
@@ -301,18 +358,559 @@
 
     <script>
         const products = [
-            { code: "10001", category: "AUDIO", name: "PARLANTE UNI-T06 (Para la ducha y la pileta) (Waterproof, pro agua)(Negro).", price:15997, oldPrice:17996, isOffer:true, stock:3, image: "https://i.postimg.cc/CxKmgYqY/PARLANTE-UNI-T06.jpg" },
-            { code: "10002", category: "AUDIO", name: "PARLANTE 3 X2 GTS-1560(Negro).", price:25933, oldPrice:26982, isOffer:true, stock:1, image: "https://i.postimg.cc/brWymmxG/PARLANTE-3PULGADX2-GTS-1560.jpg" },
-            { code: "10003", category: "AUDIO", name: "PARLANTE 3 GTS-1867", price:9546, oldPrice:10104, isOffer:true, stock:1, image: "https://i.postimg.cc/fTpkL7L2/PARLANTE-3-GTS-1867.webp" },
-            { code: "10004", category: "AUDIO", name: "PARLANTE UNI-RETROILUMINADO 3 PULGADAS.", price:9022, oldPrice:9358, isOffer:true, stock:3, image: "https://i.postimg.cc/CKxKLnxk/PARLANTE-UNI-RETROILUMINADO-3-PULGADAS.jpg" }
+            {
+                code: "10005 ",
+                category: "AUDIO ",
+                name: "PARLANTE MINI G63 4 EN 1 ",
+                price:17998,
+                oldPrice:19998,
+               isOffer:true,
+              isNew:true,
+                stock:1 ,
+                images: [ "https://i.postimg.cc/pr6rYWMM/parlante-mini-g63-a-4en1.webp ",]
+            },
+ {
+                code: "10006 ",
+                category: "AUDIO ",
+                name: "PARLANTE MINI A005 (Negro) ",
+                price:13998,
+                oldPrice:14698,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images:[ "https://i.postimg.cc/zG10YWcM/PARLANTE-MINI-A005-(Negro).jpg ",]
+            },
+ {
+                code: "10007 ",
+                category: "AUDIO ",
+                name: "PARLANTE X63 BLANCO ",
+                price:59998,
+                oldPrice:70498,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/pr6rYWMM/parlante-mini-g63-a-4en1.webp ",]
+            },
+ {
+                code: "10008 ",
+                category: "AUDIO ",
+                name: "PARLANTE RGB TIPO AIR Z6 - UNIFOX ",
+                price:33998,
+                oldPrice:39098,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/1zDghnbF/PARLANTE-RGB-TIPO-AIR-Z6-unifox.webp ", ]
+            },
+ {
+                code: "10009 ",
+                category: "AUDIO ",
+                name: "PARLANTE PEQUEÑO 3 CURVAS (AZUL) ",
+                price:23998,
+                oldPrice:35997,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/hjSV21hh/PARLANTE-PEQUENO-3-CURVAS.webp ", ]
+            },
+ {
+                code: "10010 ",
+                category: "AUDIO ",
+                name: "PARLANTE PEQUEÑO 3 CURVAS (ROJO) ",
+                price:23998,
+                oldPrice:35997,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/hjSV21hh/PARLANTE-PEQUENO-3-CURVAS.webp ", ]
+            },
+ {
+                code: "10011 ",
+                category: "AUDIO ",
+                name: "PARLANTE PEQUEÑO 3 PULGADAS RGB ",
+                price:13198,
+                oldPrice:17157,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/zvPJs8j2/PARLANTE-PEQUENO-3-PULGADAS-RGB.webp ", ]
+            },
+ {
+                code: "20006 ",
+                category: "ILUMINACION ",
+                name: "MINI FOCO LED RGB GIRATORIO BOLICHERO ",
+                price:7998,
+                oldPrice:9998,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/N0WCPVRB/MINI-FOCO-LED-RGB-GIRATORIO-BOLICHERO.webp ", ]
+            },
+ {
+                code: "20007 ",
+                category: "ILUMINACION ",
+                name: "PROYECTOR ASTRONAUTA SENTADO - BLANCO GUITARRA ",
+                price:22748,
+                oldPrice:25998,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/YS5kfd97/PROYECTOR-ASTRONAUTA-SENTADO-BLANCO-GUITARRA.webp ", ]
+            },
+ {
+                code: "30010 ",
+                category: "AURICULARES ",
+                name: "Auriculares M88 PLUS ",
+                price:18998,
+                oldPrice:12477,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/MT0TnCDp/Auriculares-M88-PLUS.webp ", ]
+            },
+ {
+                code: "30013 ",
+                category: "AURICULARES ",
+                name: "Auriculares Air 31 (Azul) ",
+                price:9598,
+                oldPrice:22323,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/9MGdWXND/Auriculares-Air-31-(CELESTE).jpg ", ]
+            },
+ {
+                code: "30014 ",
+                category: "AURICULARES ",
+                name: "Auriculares Air 31 (Verde) ",
+                price:9598,
+                oldPrice:22323,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/wv7BVwDM/Auriculares-Air-31-(VERDE).jpg ", ]
+            },
+ {
+                code: "30015 ",
+                category: "AURICULARES ",
+                name: "AURICULARES BLUETOOTH M48 ",
+                price:35998,
+                oldPrice:39598,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/bJCtYG9J/AURICULARES-BLUETOOTH-M48.jpg ", ]
+            },
+ {
+                code: "30016 ",
+                category: "AURICULARES ",
+                name: "AURICULARES BLUETOOTH M47 ",
+                price:29998,
+                oldPrice:35248,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/mkk6hHxX/7797dab6-5011-46c2-a0de-7a987f0b8449-6af78061f78a8c84dc6705a4b4103af1.webp ", ]
+            },
+ {
+                code: "30017 ",
+                category: "AURICULARES ",
+                name: "AURICULARES BLUETOOTH M56 (4 AURICULARES) ",
+                price:39998,
+                oldPrice:47998,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/6pbgRKLm/AURICULARES-BLUETOOTH-M56.webp ", ]
+            },
+ {
+                code: "30018 ",
+                category: "AURICULARES ",
+                name: "Headphone P880 RGB (Negro) ",
+                price:39998,
+                oldPrice:44998,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/NFLrK1sf/Headphone-P880-RGB-(Negro).webp ", ]
+            },
+ {
+                code: "30019 ",
+                category: "AURICULARES ",
+                name: "Headphone P880 RGB (Blanco) ",
+                price:39998,
+                oldPrice:44998,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/pXWn5Md0/Headphone-P880-RGB-(blanco).jpg ", ]
+            },
+ {
+                code: "30020 ",
+                category: "AURICULARES ",
+                name: "AURICULARES AIR MAX CON PANTALLA CLARIDAD (Rosa) ",
+                price:24998,
+                oldPrice:2649788,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/ZY7VqHbd/AURICULARES-AIR-MAX-CON-PANTALLA-CLARIDAD-(Rosa).jpg ", ]
+            },
+ {
+                code: "30021 ",
+                category: "AURICULARES ",
+                name: "AURICULARES AIR MAX CON PANTALLA CLARIDAD (Celeste) ",
+                price:24998,
+                oldPrice:26248,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/DzvCCwnN/AURICULARES-AIR-MAX-CON-PANTALLA-CLARIDAD-(celeste).jpg ", ]
+            },
+ {
+                code: "30022 ",
+                category: "AURICULARES ",
+                name: "AURICULARES BLUETOOTH M45 (Plateado) ",
+                price:14998,
+                oldPrice:21372,
+               isOffer:true,
+              isNew:true,
+                stock:3,
+                images: [ "https://i.postimg.cc/j5mY07jL/unnamed.jpg ", ]
+            },
+ {
+                code: "30023 ",
+                category: "AURICULARES ",
+                name: "AURICULARES BLUETOOTH 895B (Negro) ",
+                price:11598,
+                oldPrice:17977,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/1X7HYGRC/AURICULARES-BLUETOOTH-895B-(Negro).jpg ", ]
+            },
+ {
+                code: "40004 ",
+                category: "VARIOS ",
+                name: "WEBCAM 720P A6 ",
+                price:13998,
+                oldPrice:20997,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/gJLbBQj6/WEBCAM-720P-A6.webp ", ]
+            },
+ {
+                code: "40005 ",
+                category: "VARIOS ",
+                name: "Raqueta mata mosquitos a pila (Rojo) ",
+                price:9998,
+                oldPrice:10998,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/nrZZjTVs/Raqueta-mata-mosquitos-a-pila-(rojo).jpg ", ]
+            },
+ {
+                code: "40006 ",
+                category: "VARIOS ",
+                name: "MINIPIMER (batidora de mano exxtra tech) ",
+                price:37998,
+                oldPrice:40848,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/5N1gnt4V/MINIPIMER-(batidora-de-mano-exxtra-tech).webp ", ]
+            },
+ {
+                code: "40007 ",
+                category: "VARIOS ",
+                name: "PEINE INALAMBRICO CON PANTALLA - ALISADOR (VIOLETA) ",
+                price:23998,
+                oldPrice:26398,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/3wWDns0H/PEINE-INALAMBRICO-CON-PANTALLA-ALISADOR-(VIOLETA).webp ", ]
+            },
+ {
+                code: "40008 ",
+                category: "VARIOS ",
+                name: "MINI VENTILADOR HUMIDIFICADOR AIRE FRIO (BLANCO) ",
+                price:30998,
+                oldPrice:33323,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/VsDyq2wt/MINI-VENTILADOR-HUMIDIFICADOR-AIRE-FRIO-(BLANCO).jpg ", ]
+            },
+ {
+                code: "40009 ",
+                category: "VARIOS ",
+                name: "HUMIDIFICADOR EFECTO DE FUEGO - AROMA TERAPIA (NEGRO) ",
+                price:33998,
+                oldPrice:35698,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/Bnqf2sPW/HUMIDIFICADOR-EFECTO-DE-FUEGO-AROMA-TERAPIA-(NEGRO).jpg ", ]
+            },
+ {
+                code: "40011 ",
+                category: "VARIOS ",
+                name: "JUEGO DE 115PCS DESTORNILLADORES ",
+                price:17998,
+                oldPrice:20248,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/ZndVMfn3/JUEGO-DE-115PCS-DESTORNILLADORES.webp ", ]
+            },
+ {
+                code: "50002 ",
+                category: "RELOJES ",
+                name: "Smartwatch ZL136 Negro ",
+                price:79998,
+                oldPrice:83998,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/CLKj5rSN/Smartwatch-ZL136-Negro.webp ", ]
+            },
+ {
+                code: "50003 ",
+                category: "RELOJES ",
+                name: "Smartwatch ZL54CJ (ROSA) ",
+                price:46998,
+                oldPrice:68852,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/d1kGnLSk/Smartwatch-ZL54CJ-(ROSA).jpg ", ]
+            },
+ {
+                code: "50004 ",
+                category: "RELOJES ",
+                name: "SMARTWATCH T900 PRO MAX SERIE 9 PLATEADO - MALLA NEGRA ",
+                price:28998,
+                oldPrice:30448,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/fRZwzpcJ/SMARTWATCH-T900-PRO-MAX-SERIE-9-PLATEADO-MALLA-NEGRA.jpg ", ]
+            },
+ {
+                code: "60001 ",
+                category: "ACCESORIOS ",
+                name: "Cargador 220V MIXOR - 45W - 2 USB + Cable Tipo C ",
+                price:6198,
+                oldPrice:9297,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/R0FSnYgd/Cargador-220V-MIXOR-45W-2-USB-Cable-Tipo-C.webp ", ]
+            },
+ {
+                code: "60002 ",
+                category: "ACCESORIOS ",
+                name: "CARGADOR 220V INTENSIFY - 2USB + CABLE TIPO C 30W ",
+                price:8998,
+                oldPrice:11248,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/6q6Y9d9D/CARGADOR-220V-INTENSIFY-2USB-CABLE-TIPO-C.jpg ", ]
+            },
+ {
+                code: "60003 ",
+                category: "ACCESORIOS ",
+                name: "CARGADOR 220V INTENSIFY - 3USB + CABLE TIPO C 30 W ",
+                price:9998,
+                oldPrice:12747,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/MpBbJs75/CARGADOR-220V-INTENSIFY-3USB-CABLE-TIPO-C-30W.jpg ", ]
+            },
+ {
+                code: "60004 ",
+                category: "ACCESORIOS ",
+                name: "CARGADOR INALAMBRICO 3 EN 1 USB ",
+                price:30198,
+                oldPrice:34728,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/HxTb1dz9/CARGADOR-INALAMBRICO-3-EN-1-USB.jpg ", ]
+            },
+ {
+                code: "60005 ",
+                category: "ACCESORIOS ",
+                name: "CABEZAL 220V OPTIMUM - 45W - ENTRADA TIPO C ",
+                price:9398,
+                oldPrice:11748,
+               isOffer:true,
+              isNew:true,
+                stock:4,
+                images: [ "https://i.postimg.cc/m29kjKNs/CABEZAL-220V-OPTIMUM-45W-ENTRADA-TIPO-C.png ", ]
+            },
+ {
+                code: "60006 ",
+                category: "ACCESORIOS ",
+                name: "CABEZAL DE CARGA RÁPIDA 65W (ENTRADA TIPO C) ",
+                price:6998,
+                oldPrice:11197,
+               isOffer:true,
+              isNew:true,
+                stock:4,
+                images: [ "https://i.postimg.cc/ZYp0F1Lk/CABEZAL-DE-CARGA-RAPIDA-65W-(ENTRADA-TIPO-C).webp ", ]
+            },
+ {
+                code: "60007 ",
+                category: "ACCESORIOS ",
+                name: "Cable HDMI AM-AM de 3m ",
+                price:7187,
+                oldPrice:13655,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/zvzmhbjR/Cable-HDMI-AM-AM-de-3m.webp ", ]
+            },
+ {
+                code: "60008 ",
+                category: "ACCESORIOS ",
+                name: "CABLE SIMIL ORIG TIPO C - 2 MTS ",
+                price:3998,
+                oldPrice:5897,
+               isOffer:true,
+              isNew:true,
+                stock:4,
+                images: [ "https://i.postimg.cc/FKynxF1L/CABLE-SIMIL-ORIG-TIPO-C-2-MTS.webp ", ]
+            },
+ {
+                code: "60009 ",
+                category: "ACCESORIOS ",
+                name: "CABLE USB LIGHTNING CYRO - XAEA - BLANCO ",
+                price:4398,
+                oldPrice:6927,
+               isOffer:true,
+              isNew:true,
+                stock:4,
+                images: [ "https://i.postimg.cc/P5kzqZzS/CABLE-USB-LIGHTNING-CYRO-XAEA-BLANCO.png ", ]
+            },
+ {
+                code: "60010 ",
+                category: "ACCESORIOS ",
+                name: "Adaptador Micro a Lightning Corto + Empaque ",
+                price:1908,
+                oldPrice:5724,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/Fz51xbK2/Adaptador-Micro-a-Lightning-Corto-Empaque.webp ", ]
+            },
+ {
+                code: "60011 ",
+                category: "ACCESORIOS ",
+                name: "HUB ADAPTADOR C-USB-HDMI C/CABLE TIPO C ",
+                price:16398,
+                oldPrice:20498,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/BnXsXLSY/HUB-ADAPTADOR-C-USB-HDMI-CCABLE-TIPO-C.webp ", ]
+            },
+ {
+                code: "60012 ",
+                category: "ACCESORIOS ",
+                name: "SOPORTE PARA AUTO - PINZA ",
+                price:2998,
+                oldPrice:4947,
+               isOffer:true,
+              isNew:true,
+                stock:2,
+                images: [ "https://i.postimg.cc/tJTv26md/SOPORTE-PARA-AUTO-PINZA.png ", ]
+            },
+ {
+                code: "70001 ",
+                category: "JUGUETES ",
+                name: "PISTOLA LANZA DARDOS DE JUGUETE (Negro con detalles Verdes) ",
+                price:2998,
+                oldPrice:39747,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/CL0X3ZnF/PISTOLA-LANZA-DARDOS-DE-JUGUETE-(Negro-con-detalles-Verdes).jpg ", ]
+            },
+ {
+                code: "70002 ",
+                category: "JUGUETES ",
+                name: "PISTOLA LANZA DARDOS DE JUGUETE (Blanco con detalles Azules) ",
+                price:2998,
+                oldPrice:39747,
+               isOffer:true,
+              isNew:true,
+                stock:1,
+                images: [ "https://i.postimg.cc/wMrzVgFB/PISTOLA-LANZA-DARDOS-DE-JUGUETE-(Blanco-con-detalles-Azules).webp ", ]
+            },
         ];
 
         const WHATSAPP_NUMBER = "5493794853528";
         let currentFilter = "Todos";
         let onlyOffers = false;
+        let onlyNew = false;
         let cart = [];
 
-        // LÓGICA DEL CARRITO (PUNTO 3)
+        let scale = 1, pointX = 0, pointY = 0, startX = 0, startY = 0, isDragging = false;
+        let currentGallery = [], currentIndex = 0;
+
+        const zoomContainer = document.getElementById('zoom-container');
+        const zoomImg = document.getElementById('lightbox-img');
+
+        function setTransform() { zoomImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
+        zoomContainer.onmousedown = (e) => { e.preventDefault(); startX = e.clientX - pointX; startY = e.clientY - pointY; isDragging = true; };
+        zoomContainer.ontouchstart = (e) => { if (e.touches.length === 1) { isDragging = true; startX = e.touches[0].clientX - pointX; startY = e.touches[0].clientY - pointY; } };
+        window.onmousemove = (e) => { if (!isDragging) return; pointX = e.clientX - startX; pointY = e.clientY - startY; setTransform(); };
+        window.ontouchmove = (e) => { if (!isDragging || e.touches.length !== 1) return; pointX = e.touches[0].clientX - startX; pointY = e.touches[0].clientY - startY; setTransform(); };
+        window.onmouseup = () => { isDragging = false; };
+        window.ontouchend = () => { isDragging = false; };
+        function adjustZoom(delta) { const newScale = scale + delta; if (newScale >= 0.5 && newScale <= 5) { scale = newScale; setTransform(); } }
+        function resetZoom() { scale = 1; pointX = 0; pointY = 0; setTransform(); }
+
+        function updateCounter() {
+            const counter = document.getElementById('img-counter');
+            counter.innerText = `${currentIndex + 1} / ${currentGallery.length}`;
+            counter.style.display = currentGallery.length > 1 ? 'block' : 'none';
+        }
+
+        function openLightbox(imagesJson) {
+            currentGallery = JSON.parse(decodeURIComponent(imagesJson));
+            currentIndex = 0;
+            zoomImg.src = currentGallery[currentIndex];
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.querySelector('.gallery-nav').style.display = currentGallery.length > 1 ? 'flex' : 'none';
+            updateCounter();
+            resetZoom();
+        }
+
+        function nextImg() {
+            if (currentGallery.length <= 1) return;
+            currentIndex = (currentIndex + 1) % currentGallery.length;
+            zoomImg.src = currentGallery[currentIndex];
+            updateCounter(); resetZoom();
+        }
+
+        function prevImg() {
+            if (currentGallery.length <= 1) return;
+            currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+            zoomImg.src = currentGallery[currentIndex];
+            updateCounter(); resetZoom();
+        }
+
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); document.body.style.overflow = 'auto'; }
+
+        // --- LÓGICA DE CARRITO ---
         function toggleCart() {
             const panel = document.getElementById('cart-panel');
             const overlay = document.getElementById('cart-overlay');
@@ -331,9 +929,14 @@
         }
 
         function addToCart(name, code, price) {
-            cart.push({ name, code, price });
+            const existingItem = cart.find(item => item.code === code);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, code, price, quantity: 1 });
+            }
             updateCartUI();
-            if(!document.getElementById('cart-panel').classList.contains('active')) toggleCart();
+            // No llamamos a toggleCart() aquí para que no se abra solo
         }
 
         function removeFromCart(index) {
@@ -345,22 +948,31 @@
             const container = document.getElementById('cart-items');
             const count = document.getElementById('cart-count');
             const total = document.getElementById('cart-total');
-            count.innerText = cart.length;
+            const totalUnits = cart.reduce((sum, item) => sum + item.quantity, 0);
+            count.innerText = totalUnits;
+
             if (cart.length === 0) {
-                container.innerHTML = '<p class="text-slate-500 text-center text-sm py-10">Tu carrito está vacío</p>';
+                container.innerHTML = '<p class="text-slate-500 text-center text-sm py-10 uppercase font-bold tracking-widest">Tu carrito está vacío</p>';
                 total.innerText = "$0";
                 return;
             }
+
             let totalSum = 0;
             container.innerHTML = cart.map((item, index) => {
-                totalSum += item.price;
+                const itemTotal = item.price * item.quantity;
+                totalSum += itemTotal;
                 return `
                     <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/5">
                         <div class="pr-2">
                             <h4 class="text-[10px] font-bold text-white uppercase leading-tight">${item.name}</h4>
-                            <p class="text-[9px] text-orange-500 font-bold mt-1">$${item.price.toLocaleString('es-AR')}</p>
+                            <p class="text-[9px] text-orange-500 font-bold mt-1">
+                                ${item.quantity} x $${item.price.toLocaleString('es-AR')}
+                                <span class="text-white/40 ml-2">= $${itemTotal.toLocaleString('es-AR')}</span>
+                            </p>
                         </div>
-                        <button onclick="removeFromCart(${index})" class="text-red-500/50 hover:text-red-500 shrink-0"><i class="fa-solid fa-trash-can"></i></button>
+                        <button onclick="removeFromCart(${index})" class="text-red-500/50 hover:text-red-500 shrink-0">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
                     </div>`;
             }).join('');
             total.innerText = `$${totalSum.toLocaleString('es-AR')}`;
@@ -369,39 +981,30 @@
         function checkoutWhatsApp() {
             if (cart.length === 0) return;
             let message = "¡Hola Opportunity Store! 👋 Mi pedido es:\n\n";
-            cart.forEach(item => { message += `• *${item.name}* (Ref: ${item.code}) - $${item.price.toLocaleString('es-AR')}\n`; });
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            cart.forEach(item => { 
+                message += `• *(${item.quantity}x)* ${item.name} (Ref: ${item.code}) - $${(item.price * item.quantity).toLocaleString('es-AR')}\n`; 
+            });
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             message += `\n💰 *Total Estimado: $${total.toLocaleString('es-AR')}*`;
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`);
         }
 
-        // RE-UTILIZACIÓN DE TUS FUNCIONES ORIGINALES
-        let scale = 1, pointX = 0, pointY = 0, startX = 0, startY = 0, isDragging = false;
-        const zoomContainer = document.getElementById('zoom-container');
-        const zoomImg = document.getElementById('lightbox-img');
-
-        function setTransform() { zoomImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
-        zoomContainer.onmousedown = (e) => { e.preventDefault(); startX = e.clientX - pointX; startY = e.clientY - pointY; isDragging = true; };
-        zoomContainer.ontouchstart = (e) => { if (e.touches.length === 1) { isDragging = true; startX = e.touches[0].clientX - pointX; startY = e.touches[0].clientY - pointY; } };
-        window.onmousemove = (e) => { if (!isDragging) return; pointX = e.clientX - startX; pointY = e.clientY - startY; setTransform(); };
-        window.ontouchmove = (e) => { if (!isDragging || e.touches.length !== 1) return; pointX = e.touches[0].clientX - startX; pointY = e.touches[0].clientY - startY; setTransform(); };
-        window.onmouseup = () => { isDragging = false; };
-        window.ontouchend = () => { isDragging = false; };
-        function adjustZoom(delta) { const newScale = scale + delta; if (newScale >= 0.5 && newScale <= 5) { scale = newScale; setTransform(); } }
-        function resetZoom() { scale = 1; pointX = 0; pointY = 0; setTransform(); }
-        function openLightbox(url) { zoomImg.src = url; document.getElementById('lightbox').classList.add('active'); document.body.style.overflow = 'hidden'; resetZoom(); }
-        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); document.body.style.overflow = 'auto'; }
-
+        // --- RENDERIZADO ---
         function renderGrid(items) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = items.map(p => {
                 const oldP = p.oldPrice;
                 const disc = (oldP && oldP > p.price) ? Math.round(((oldP - p.price) / oldP) * 100) : null;
+                const imagesJson = encodeURIComponent(JSON.stringify(p.images));
                 return `
                 <div class="glass-card rounded-[2rem] overflow-hidden flex flex-col h-full relative">
-                    ${p.isOffer ? `<div class="absolute top-4 left-4 z-20 badge-offer text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest animate-pulse">Oferta 🔥 ${disc ? disc+'% OFF' : ''}</div>` : ''}
-                    <div class="relative h-64 bg-slate-900 group cursor-zoom-in" onclick="openLightbox('${p.image}')">
-                        <img src="${p.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 right-4 z-20 flex flex-col gap-2 items-end">
+                        ${p.isOffer ? `<div class="badge-offer text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest animate-pulse">Oferta 🔥 ${disc ? disc+'% OFF' : ''}</div>` : ''}
+                        ${p.isNew ? `<div class="badge-new text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Nuevo 🚀</div>` : ''}
+                    </div>
+                    <div class="relative h-64 bg-slate-900 group cursor-zoom-in" onclick="openLightbox('${imagesJson}')">
+                        <img src="${p.images[0]}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        ${p.images.length > 1 ? `<div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-2 py-1 rounded-md text-[10px] font-bold"><i class="fa-solid fa-images mr-1"></i> ${p.images.length}</div>` : ''}
                         <div class="absolute inset-0 bg-orange-600/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><i class="fa-solid fa-expand text-white text-3xl"></i></div>
                     </div>
                     <div class="p-8 flex flex-col flex-grow">
@@ -428,32 +1031,44 @@
             const query = document.getElementById('search-input').value.toLowerCase();
             const filtered = products.filter(p => {
                 const mS = p.name.toLowerCase().includes(query) || p.code.toLowerCase().includes(query);
-                const mC = currentFilter === "Todos" || p.category.trim() === currentFilter;
+                const mC = currentFilter === "Todos" || p.category === currentFilter;
                 const mO = !onlyOffers || p.isOffer;
-                return mS && mC && mO;
+                const mN = !onlyNew || p.isNew;
+                return mS && mC && mO && mN;
             });
             renderGrid(filtered);
         }
 
         function setCategory(cat) {
-            currentFilter = cat; onlyOffers = false;
+            currentFilter = cat; onlyOffers = false; onlyNew = false;
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.trim() === cat));
-            if (document.getElementById('offer-btn')) document.getElementById('offer-btn').classList.remove('active');
+            document.getElementById('offer-btn').classList.remove('active');
+            document.getElementById('new-btn').classList.remove('active');
             filterProducts();
         }
 
         function toggleOffers() {
-            onlyOffers = !onlyOffers; currentFilter = "Todos";
+            onlyOffers = !onlyOffers; onlyNew = false; currentFilter = "Todos";
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.trim() === 'Todos'));
-            if (document.getElementById('offer-btn')) document.getElementById('offer-btn').classList.toggle('active', onlyOffers);
+            document.getElementById('offer-btn').classList.toggle('active', onlyOffers);
+            document.getElementById('new-btn').classList.remove('active');
+            filterProducts();
+        }
+
+        function toggleNew() {
+            onlyNew = !onlyNew; onlyOffers = false; currentFilter = "Todos";
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.trim() === 'Todos'));
+            document.getElementById('new-btn').classList.toggle('active', onlyNew);
+            document.getElementById('offer-btn').classList.remove('active');
             filterProducts();
         }
 
         function renderCategories() {
             const container = document.getElementById('category-filters');
-            const cats = ["Todos", ...new Set(products.map(p => p.category.trim()))];
+            const cats = ["Todos", ...new Set(products.map(p => p.category))];
             const html = cats.map(c => `<button onclick="setCategory('${c}')" class="category-btn px-6 py-2 rounded-xl border border-white/5 bg-white/5 text-slate-400 text-[10px] font-bold uppercase tracking-widest transition-all ${c === 'Todos' ? 'active' : ''}">${c}</button>`).join('');
-            container.innerHTML = html + `<button id="offer-btn" onclick="toggleOffers()" class="btn-promo-fire px-6 py-2 rounded-xl text-white text-[10px] font-black uppercase tracking-widest transition-all">OFERTAS 🔥</button>`;
+            const specialBtns = `<button id="offer-btn" onclick="toggleOffers()" class="btn-promo-fire px-6 py-2 rounded-xl text-white text-[10px] font-black uppercase tracking-widest transition-all">OFERTAS 🔥</button><button id="new-btn" onclick="toggleNew()" class="btn-new-launch px-6 py-2 rounded-xl text-white text-[10px] font-black uppercase tracking-widest transition-all">LANZAMIENTOS 🚀</button>`;
+            container.innerHTML = html + specialBtns;
         }
 
         window.onload = () => { renderCategories(); renderGrid(products); };
