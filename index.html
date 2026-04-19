@@ -58,15 +58,11 @@
             box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
         }
 
-        .badge-new {
-            background: linear-gradient(45deg, #0ea5e9, #2563eb);
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        .btn-promo-fire {
+            background: linear-gradient(45deg, #f97316, #ef4444);
         }
-
-        .btn-promo-fire { background: linear-gradient(45deg, #f97316, #ef4444); }
-        .btn-new-launch { background: linear-gradient(45deg, #0ea5e9, #2563eb); }
         
-        .btn-promo-fire.active, .btn-new-launch.active {
+        .btn-promo-fire.active {
             outline: 2px solid white;
             outline-offset: 2px;
         }
@@ -106,46 +102,6 @@
             transform-origin: center;
             transition: transform 0.1s ease-out;
             user-select: none;
-        }
-
-        /* Estilos Galería */
-        .gallery-nav {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            pointer-events: none;
-            z-index: 1005;
-        }
-        .nav-btn {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: auto;
-            transition: all 0.3s;
-        }
-        .nav-btn:hover { background: var(--primary); transform: scale(1.1); }
-        
-        #img-counter {
-            position: absolute;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255,255,255,0.1);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            z-index: 1005;
         }
 
         .zoom-controls {
@@ -198,25 +154,21 @@
             z-index: -1;
             pointer-events: none;
         }
+
+        /* ESTILOS DEL CARRITO (PUNTO 2) */
+        #cart-panel.active { transform: translateX(0); }
+        #cart-overlay.active { display: block; opacity: 1; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
     <div id="lightbox">
-        <div id="img-counter">1 / 1</div>
         <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/50 hover:text-white text-4xl z-[1010] transition-colors">
             <i class="fa-solid fa-circle-xmark"></i>
         </button>
-        
-        <div class="gallery-nav">
-            <button class="nav-btn" onclick="prevImg()"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="nav-btn" onclick="nextImg()"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-
         <div class="zoom-container" id="zoom-container">
             <img id="lightbox-img" src="" alt="Vista previa" draggable="false">
         </div>
-
         <div class="zoom-controls">
             <button class="zoom-btn" onclick="adjustZoom(-0.5)"><i class="fa-solid fa-minus"></i></button>
             <button class="zoom-btn" onclick="resetZoom()"><i class="fa-solid fa-arrows-rotate"></i></button>
@@ -243,7 +195,7 @@
 
     <div class="flex-grow">
         <header class="relative pt-16 pb-12 px-6 text-center max-w-4xl mx-auto overflow-hidden">
-            <img src="TU_LINK_DE_LOGO_AQUI" alt="" class="header-bg-logo" onerror="this.style.display='none'">
+            <img src="https://i.postimg.cc/rpjLpm6W/logo-catalogo.jpg" alt="" class="header-bg-logo" onerror="this.style.display='none'">
             <div class="relative z-10">
                 <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest">
                     Innovación en cada producto
@@ -251,7 +203,6 @@
                 <h2 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase leading-none">
                     OPPORTUNITY <span class="text-orange-500">-CTES STORE-</span>
                 </h2>
-                
                 <div class="flex flex-col gap-1.5 mb-8">
                     <p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-[0.25em]">
                         * Precios validos hasta el 30/04/2026 sujetos a modificación *
@@ -263,7 +214,6 @@
                         Somos Venta Online • Hacemos Envíos
                     </p>
                 </div>
-                
                 <div class="relative group max-w-2xl mx-auto mt-6">
                     <i class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-orange-500"></i>
                     <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="¿Qué estás buscando hoy?" 
@@ -278,6 +228,28 @@
             <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
         </main>
     </div>
+
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="cart-panel" class="fixed top-0 right-0 h-full w-[85%] max-w-[400px] bg-slate-950 border-l border-white/10 z-[2001] translate-x-full transition-transform duration-300 ease-in-out flex flex-col text-white">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 class="text-xl font-black uppercase tracking-tighter text-orange-500">Mi Carrito</h3>
+            <button onclick="toggleCart()" class="text-white/50 hover:text-white text-2xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4"></div>
+        <div class="p-6 border-t border-white/10 bg-slate-900/50">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-slate-400 uppercase text-xs font-bold">Total Estimado</span>
+                <span id="cart-total" class="text-2xl font-black text-white">$0</span>
+            </div>
+            <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Confirmar Pedido
+            </button>
+        </div>
+    </div>
+    <button onclick="toggleCart()" class="fixed bottom-6 right-6 w-16 h-16 bg-orange-500 text-white rounded-2xl shadow-2xl shadow-orange-500/40 z-[1500] flex items-center justify-center text-2xl active:scale-90 transition-transform">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cart-count" class="absolute -top-2 -right-2 bg-white text-orange-600 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center border-2 border-orange-500">0</span>
+    </button>
 
     <footer class="bg-slate-950 border-t border-white/5 pt-16 pb-8 px-6">
         <div class="max-w-7xl mx-auto">
@@ -294,25 +266,23 @@
                         Tu tienda de confianza en Corrientes. Calidad y tecnología al mejor precio del mercado.
                     </p>
                 </div>
-
                 <div class="flex flex-col items-center">
                     <h4 class="text-xs font-black uppercase tracking-widest text-white mb-6">Nuestras Redes</h4>
                     <div class="flex flex-wrap justify-center gap-4">
                         <a href="https://wa.me/5493794853528" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
                             <i class="fa-brands fa-whatsapp text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
-                        <a href="https://www.facebook.com/share/1GSH5dyfVc/" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all group">
+                        <a href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all group">
                             <i class="fa-brands fa-facebook-f text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
-                        <a href="https://www.tiktok.com/@opportunityctesstore?_r=1&_t=ZS-95ZVKDPIHrQ" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-black hover:border-slate-700 transition-all group">
+                        <a href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-black hover:border-slate-700 transition-all group">
                             <i class="fa-brands fa-tiktok text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
-                        <a href="https://www.instagram.com/opportunityctesstore?igsh=NmkyMmg0cWJmazI3" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
+                        <a href="#" target="_blank" class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:border-orange-500 transition-all group">
                             <i class="fa-brands fa-instagram text-xl text-slate-400 group-hover:text-white"></i>
                         </a>
                     </div>
                 </div>
-
                 <div class="flex flex-col items-center md:items-end">
                     <h4 class="text-xs font-black uppercase tracking-widest text-white mb-6">Atención al Cliente</h4>
                     <div class="text-center md:text-right">
@@ -321,7 +291,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-slate-500 text-[10px] uppercase font-bold tracking-widest">
                     &copy; 2026 Opportunity Ctes Store. Todos los derechos reservados.
@@ -332,464 +301,162 @@
 
     <script>
         const products = [
-            {
-                code: "10001",
-                category: "AUDIO",
-                name: "PARLANTE UNI-T06 (Para la ducha y la pileta) (Waterproof, pro agua)(Negro)",
-                price: 15997,
-                oldPrice: 17996,
-                isOffer: true,
-                stock: 3,
-                images: ["https://i.postimg.cc/CxKmgYqY/PARLANTE-UNI-T06.jpg"]
-            },
-            {
-                code: "10002",
-                category: "AUDIO",
-                name: "PARLANTE 3 X2 GTS-1560(Negro)",
-                price: 25933,
-                oldPrice: 26982,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/brWymmxG/PARLANTE-3PULGADX2-GTS-1560.jpg"]
-            },
-            {
-                code: "10003",
-                category: "AUDIO",
-                name: "PARLANTE 3 GTS-1867",
-                price: 9546,
-                oldPrice: 10104,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/fTpkL7L2/PARLANTE-3-GTS-1867.webp"]
-            },
-            {
-                code: "10004",
-                category: "AUDIO",
-                name: "PARLANTE UNI-RETROILUMINADO 3 PULGADAS",
-                price: 9022,
-                oldPrice: 9358,
-                isOffer: true,
-                stock: 3,
-                images: ["https://i.postimg.cc/CKxKLnxk/PARLANTE-UNI-RETROILUMINADO-3-PULGADAS.jpg"]
-            },
-            {
-                code: "20001",
-                category: "ILUMINACIO",
-                name: "LAMPARA SOLAR MATA MOSQUITO CON PANEL SOLAR Y SENSOR DE MOVIMIENTO",
-                price: 17249,
-                oldPrice: 18283,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/pLXvDbMT/LAMPARA-SOLAR-MATA-MOSQUITO-CON-PANEL-SOLAR-Y-SENSOR-DE-MOVIMIENTO.jpg"]
-            },
-            {
-                code: "20002",
-                category: "ILUMINACIO",
-                name: "LAMPARA ELECTRICA LED PARA MOSQUITOS",
-                price: 10499,
-                oldPrice: 14908,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/Kj2SjC5X/LAMPARA-ELECTRICA-LED-PARA-MOSQUITOS.webp"]
-            },
-            {
-                code: "20003",
-                category: "ILUMINACIO",
-                name: "FOCO RGB CON CONTROL REMOTO",
-                price: 9749,
-                oldPrice: 14883,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/8PTgSQ5Z/FOCO-RGB-CON-CONTROL-REMOTOBIS.jpg"]
-            },
-            {
-                code: "20004",
-                category: "ILUMINACIO",
-                name: "LUZ DE EMERGENCIA 45 LED",
-                price: 12167,
-                oldPrice: 16953,
-                isOffer: true,
-                stock: 4,
-                images: ["https://i.postimg.cc/6p1kn8hR/LUZ-DE-EMERGENCIA-45-LED.jpg"]
-            },
-            {
-                code: "20005",
-                category: "ILUMINACIO",
-                name: "LUZ ESFERA CON SATURNO EN 7 COLORES",
-                price: 6749,
-                oldPrice: 8458,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/G2vVWqnP/LUZ-ESFERA-CON-SATURNO-EN-7-COLORES.jpg"]
-            },
-            {
-                code: "30002",
-                category: "AURICULARES",
-                name: "HEADPHONE INFANTIL *(Oso Rosa)",
-                price: 25067,
-                oldPrice: 30081,
-                isOffer: true,
-                stock: 0,
-                images: ["https://i.postimg.cc/sgQgHfX2/AURICULARES-OSO-ROSA.jpg"]
-            },
-            {
-                code: "30003",
-                category: "AURICULARES",
-                name: "HEADPHONES P47 Calidad AAA(Rojo)",
-                price: 7499,
-                oldPrice: 7998,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/9Q2dCTHB/HEADPHONES-P47.png"]
-            },
-            {
-                code: "30004",
-                category: "AURICULARES",
-                name: "HEADPHONES P47 Calidad AAA(Negro)",
-                price: 7499,
-                oldPrice: 7998,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/9Q2dCTHB/HEADPHONES-P47.png"]
-            },
-            {
-                code: "30005",
-                category: "AURICULARES",
-                name: "HEADPHONE P47- Orejas de Gato(Negro)",
-                price: 10313,
-                oldPrice: 18563,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/d0xZkZpW/HEADPHONE-P47-Orejas-de-Gato.png"]
-            },
-            {
-                code: "30006",
-                category: "AURICULARES",
-                name: "Auriculares Manos libres Bluetooth SEGURO",
-                price: 5399,
-                oldPrice: 9141,
-                isOffer: true,
-                stock: 0,
-                images: ["https://i.postimg.cc/nLCCJcM8/Auriculares-Manos-libres-Bluetooth.png"]
-            },
-            {
-                code: "30007",
-                category: "AURICULARES",
-                name: "AURICULARES UNI TOUCH AAA (Negro)",
-                price: 9299,
-                oldPrice: 10538,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/05d5hJnH/AURICULARES-UNI-TOUCH-AAA-(Negro).png"]
-            },
-            {
-                code: "30008",
-                category: "AURICULARES",
-                name: "AURICULARES AIR MAX CON PANTALLA",
-                price: 18749,
-                oldPrice: 32997,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/Wz2VsX89/AURICULARES-AIR-MAX-CON-PANTALLA.png"]
-            },
-            {
-                code: "30009",
-                category: "AURICULARES",
-                name: "Auriculares M41 (Luces RGB RetroIluminadas)(Negro)",
-                price: 10499,
-                oldPrice: 13858,
-                isOffer: true,
-                stock: 2,
-                images: ["https://i.postimg.cc/Jn8VQPf5/Auriculares-M41-(Luces-RGB-Retro-Iluminadas.png"]
-            },
-            {
-                code: "40001",
-                category: "VARIOS",
-                name: "CALENTADOR DE TAZAS",
-                price: 8699,
-                oldPrice: 24936,
-                isOffer: true,
-                stock: 0,
-                images: ["https://i.postimg.cc/6QvmZY3k/CALENTADOR-DE-TAZAS.jpg"]
-            },
-            {
-                code: "40002",
-                category: "VARIOS",
-                name: "ESTUFA HALÓGENA 2 VELAS",
-                price: 26957,
-                oldPrice: 29652,
-                isOffer: true,
-                stock: 4,
-                images: ["https://i.postimg.cc/9f9SnKZ0/ESTUFA-HALOGENA-2-VELAS.png"]
-            },
-            {
-                code: "40003",
-                category: "VARIOS",
-                name: "TV BOX SMART CONVERTIDOR TV 6K FULL HD",
-                price: 39749,
-                oldPrice: 50348,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/wjyb1ZWn/TV-BOX-SMART-CONVERTIDOR-TV-6K-FULL-HD.png"]
-            },
-            {
-                code: "50001",
-                category: "RELOJES",
-                name: "Smartwatch ZL123 Negro",
-                price: 31485,
-                oldPrice: 34843,
-                isOffer: true,
-                stock: 1,
-                images: ["https://i.postimg.cc/pTcxCDR7/Smartwatch-ZL123-Negro.jpg"]
-            }
+            { code: "10001", category: "AUDIO", name: "PARLANTE UNI-T06 (Para la ducha y la pileta) (Waterproof, pro agua)(Negro).", price:15997, oldPrice:17996, isOffer:true, stock:3, image: "https://i.postimg.cc/CxKmgYqY/PARLANTE-UNI-T06.jpg" },
+            { code: "10002", category: "AUDIO", name: "PARLANTE 3 X2 GTS-1560(Negro).", price:25933, oldPrice:26982, isOffer:true, stock:1, image: "https://i.postimg.cc/brWymmxG/PARLANTE-3PULGADX2-GTS-1560.jpg" },
+            { code: "10003", category: "AUDIO", name: "PARLANTE 3 GTS-1867", price:9546, oldPrice:10104, isOffer:true, stock:1, image: "https://i.postimg.cc/fTpkL7L2/PARLANTE-3-GTS-1867.webp" },
+            { code: "10004", category: "AUDIO", name: "PARLANTE UNI-RETROILUMINADO 3 PULGADAS.", price:9022, oldPrice:9358, isOffer:true, stock:3, image: "https://i.postimg.cc/CKxKLnxk/PARLANTE-UNI-RETROILUMINADO-3-PULGADAS.jpg" }
         ];
 
         const WHATSAPP_NUMBER = "5493794853528";
         let currentFilter = "Todos";
         let onlyOffers = false;
-        let onlyNew = false;
+        let cart = [];
 
-        let scale = 1;
-        let pointX = 0;
-        let pointY = 0;
-        let startX = 0;
-        let startY = 0;
-        let isDragging = false;
+        // LÓGICA DEL CARRITO (PUNTO 3)
+        function toggleCart() {
+            const panel = document.getElementById('cart-panel');
+            const overlay = document.getElementById('cart-overlay');
+            const isActive = panel.classList.contains('active');
+            if (!isActive) {
+                panel.classList.add('active');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.add('active'), 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                panel.classList.remove('active');
+                overlay.classList.remove('active');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+                document.body.style.overflow = 'auto';
+            }
+        }
 
-        // Variables Galería
-        let currentGallery = [];
-        let currentIndex = 0;
+        function addToCart(name, code, price) {
+            cart.push({ name, code, price });
+            updateCartUI();
+            if(!document.getElementById('cart-panel').classList.contains('active')) toggleCart();
+        }
 
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const count = document.getElementById('cart-count');
+            const total = document.getElementById('cart-total');
+            count.innerText = cart.length;
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-slate-500 text-center text-sm py-10">Tu carrito está vacío</p>';
+                total.innerText = "$0";
+                return;
+            }
+            let totalSum = 0;
+            container.innerHTML = cart.map((item, index) => {
+                totalSum += item.price;
+                return `
+                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/5">
+                        <div class="pr-2">
+                            <h4 class="text-[10px] font-bold text-white uppercase leading-tight">${item.name}</h4>
+                            <p class="text-[9px] text-orange-500 font-bold mt-1">$${item.price.toLocaleString('es-AR')}</p>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-red-500/50 hover:text-red-500 shrink-0"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>`;
+            }).join('');
+            total.innerText = `$${totalSum.toLocaleString('es-AR')}`;
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) return;
+            let message = "¡Hola Opportunity Store! 👋 Mi pedido es:\n\n";
+            cart.forEach(item => { message += `• *${item.name}* (Ref: ${item.code}) - $${item.price.toLocaleString('es-AR')}\n`; });
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            message += `\n💰 *Total Estimado: $${total.toLocaleString('es-AR')}*`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`);
+        }
+
+        // RE-UTILIZACIÓN DE TUS FUNCIONES ORIGINALES
+        let scale = 1, pointX = 0, pointY = 0, startX = 0, startY = 0, isDragging = false;
         const zoomContainer = document.getElementById('zoom-container');
         const zoomImg = document.getElementById('lightbox-img');
 
-        function setTransform() {
-            zoomImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
-        }
-
-        zoomContainer.onmousedown = (e) => {
-            e.preventDefault();
-            startX = e.clientX - pointX;
-            startY = e.clientY - pointY;
-            isDragging = true;
-        };
-
-        zoomContainer.ontouchstart = (e) => {
-            if (e.touches.length === 1) {
-                isDragging = true;
-                startX = e.touches[0].clientX - pointX;
-                startY = e.touches[0].clientY - pointY;
-            }
-        };
-
-        window.onmousemove = (e) => {
-            if (!isDragging) return;
-            pointX = e.clientX - startX;
-            pointY = e.clientY - startY;
-            setTransform();
-        };
-
-        window.ontouchmove = (e) => {
-            if (!isDragging || e.touches.length !== 1) return;
-            pointX = e.touches[0].clientX - startX;
-            pointY = e.touches[0].clientY - startY;
-            setTransform();
-        };
-
+        function setTransform() { zoomImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
+        zoomContainer.onmousedown = (e) => { e.preventDefault(); startX = e.clientX - pointX; startY = e.clientY - pointY; isDragging = true; };
+        zoomContainer.ontouchstart = (e) => { if (e.touches.length === 1) { isDragging = true; startX = e.touches[0].clientX - pointX; startY = e.touches[0].clientY - pointY; } };
+        window.onmousemove = (e) => { if (!isDragging) return; pointX = e.clientX - startX; pointY = e.clientY - startY; setTransform(); };
+        window.ontouchmove = (e) => { if (!isDragging || e.touches.length !== 1) return; pointX = e.touches[0].clientX - startX; pointY = e.touches[0].clientY - startY; setTransform(); };
         window.onmouseup = () => { isDragging = false; };
         window.ontouchend = () => { isDragging = false; };
-
-        function adjustZoom(delta) {
-            const newScale = scale + delta;
-            if (newScale >= 0.5 && newScale <= 5) {
-                scale = newScale;
-                setTransform();
-            }
-        }
-
-        function resetZoom() {
-            scale = 1; pointX = 0; pointY = 0;
-            setTransform();
-        }
-
-        function updateCounter() {
-            const counter = document.getElementById('img-counter');
-            counter.innerText = `${currentIndex + 1} / ${currentGallery.length}`;
-            counter.style.display = currentGallery.length > 1 ? 'block' : 'none';
-        }
-
-        function openLightbox(imagesJson) {
-            currentGallery = JSON.parse(decodeURIComponent(imagesJson));
-            currentIndex = 0;
-            zoomImg.src = currentGallery[currentIndex];
-            document.getElementById('lightbox').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            const nav = document.querySelector('.gallery-nav');
-            nav.style.display = currentGallery.length > 1 ? 'flex' : 'none';
-            
-            updateCounter();
-            resetZoom();
-        }
-
-        function nextImg() {
-            if (currentGallery.length <= 1) return;
-            currentIndex = (currentIndex + 1) % currentGallery.length;
-            zoomImg.src = currentGallery[currentIndex];
-            updateCounter();
-            resetZoom();
-        }
-
-        function prevImg() {
-            if (currentGallery.length <= 1) return;
-            currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-            zoomImg.src = currentGallery[currentIndex];
-            updateCounter();
-            resetZoom();
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function calculateDiscount(current, old) {
-            if (!old || old <= current) return null;
-            const diff = old - current;
-            return Math.round((diff / old) * 100);
-        }
+        function adjustZoom(delta) { const newScale = scale + delta; if (newScale >= 0.5 && newScale <= 5) { scale = newScale; setTransform(); } }
+        function resetZoom() { scale = 1; pointX = 0; pointY = 0; setTransform(); }
+        function openLightbox(url) { zoomImg.src = url; document.getElementById('lightbox').classList.add('active'); document.body.style.overflow = 'hidden'; resetZoom(); }
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); document.body.style.overflow = 'auto'; }
 
         function renderGrid(items) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = items.map(p => {
-                const discount = calculateDiscount(p.price, p.oldPrice);
-                const imagesJson = encodeURIComponent(JSON.stringify(p.images));
+                const oldP = p.oldPrice;
+                const disc = (oldP && oldP > p.price) ? Math.round(((oldP - p.price) / oldP) * 100) : null;
                 return `
                 <div class="glass-card rounded-[2rem] overflow-hidden flex flex-col h-full relative">
-                    <div class="absolute top-4 right-4 z-20 flex flex-col gap-2 items-end">
-                        ${p.isOffer ? `
-                            <div class="badge-offer text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest animate-pulse">
-                                Oferta 🔥 ${discount ? `${discount}% OFF` : ''}
-                            </div>
-                        ` : ''}
-                        ${p.isNew ? `
-                            <div class="badge-new text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-                                Nuevo 🚀
-                            </div>
-                        ` : ''}
-                    </div>
-                    <div class="relative h-64 bg-slate-900 group cursor-zoom-in" onclick="openLightbox('${imagesJson}')">
-                        <img src="${p.images[0]}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        ${p.images.length > 1 ? `
-                            <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-2 py-1 rounded-md text-[10px] font-bold">
-                                <i class="fa-solid fa-images mr-1"></i> ${p.images.length}
-                            </div>
-                        ` : ''}
-                        <div class="absolute inset-0 bg-orange-600/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <i class="fa-solid fa-expand text-white text-3xl"></i>
-                        </div>
+                    ${p.isOffer ? `<div class="absolute top-4 left-4 z-20 badge-offer text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest animate-pulse">Oferta 🔥 ${disc ? disc+'% OFF' : ''}</div>` : ''}
+                    <div class="relative h-64 bg-slate-900 group cursor-zoom-in" onclick="openLightbox('${p.image}')">
+                        <img src="${p.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-orange-600/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"><i class="fa-solid fa-expand text-white text-3xl"></i></div>
                     </div>
                     <div class="p-8 flex flex-col flex-grow">
                         <div class="flex justify-between items-start mb-2">
                             <span class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">SKU: ${p.code}</span>
-                            <span class="text-[9px] ${p.stock > 0 ? 'text-green-400' : 'text-red-400'} font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 rounded">
-                                ${p.stock > 0 ? `Stock: ${p.stock}` : 'Agotado'}
-                            </span>
+                            <span class="text-[9px] ${p.stock > 0 ? 'text-green-400' : 'text-red-400'} font-bold uppercase tracking-widest px-2 py-0.5 bg-white/5 rounded">${p.stock > 0 ? 'Stock: '+p.stock : 'Agotado'}</span>
                         </div>
                         <h3 class="text-sm font-bold mb-6 line-clamp-2 leading-snug text-slate-100 uppercase">${p.name}</h3>
                         <div class="mt-auto">
                             <div class="mb-6">
                                 ${p.oldPrice ? `<div class="old-price">$${p.oldPrice.toLocaleString('es-AR')}</div>` : '<div class="h-5"></div>'}
-                                <div class="flex items-baseline gap-1">
-                                    <span class="text-xs font-bold text-orange-500">$</span>
-                                    <span class="text-4xl font-black price-text tracking-tighter">${p.price.toLocaleString('es-AR')}</span>
-                                </div>
+                                <div class="flex items-baseline gap-1"><span class="text-xs font-bold text-orange-500">$</span><span class="text-4xl font-black price-text tracking-tighter">${p.price.toLocaleString('es-AR')}</span></div>
                             </div>
-                            <button onclick="sendOrder('${p.name}', '${p.code}', ${p.price})" 
-                                class="w-full bg-orange-500 text-white hover:bg-orange-600 py-4 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all shadow-lg shadow-orange-500/20 active:scale-95">
-                                <i class="fa-brands fa-whatsapp mr-2"></i> Me interesa
+                            <button onclick="addToCart('${p.name}', '${p.code}', ${p.price})" class="w-full bg-orange-500 text-white hover:bg-orange-600 py-4 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all shadow-lg shadow-orange-500/20 active:scale-95">
+                                <i class="fa-solid fa-cart-plus mr-2"></i> Añadir al carrito
                             </button>
                         </div>
                     </div>
-                </div>
-            `}).join('');
+                </div>`;
+            }).join('');
         }
 
         function filterProducts() {
             const query = document.getElementById('search-input').value.toLowerCase();
             const filtered = products.filter(p => {
-                const matchesSearch = p.name.toLowerCase().includes(query) || p.code.toLowerCase().includes(query);
-                const matchesCategory = currentFilter === "Todos" || p.category === currentFilter;
-                const matchesOffer = !onlyOffers || p.isOffer;
-                const matchesNew = !onlyNew || p.isNew;
-                return matchesSearch && matchesCategory && matchesOffer && matchesNew;
+                const mS = p.name.toLowerCase().includes(query) || p.code.toLowerCase().includes(query);
+                const mC = currentFilter === "Todos" || p.category.trim() === currentFilter;
+                const mO = !onlyOffers || p.isOffer;
+                return mS && mC && mO;
             });
             renderGrid(filtered);
         }
 
         function setCategory(cat) {
-            currentFilter = cat;
-            onlyOffers = false;
-            onlyNew = false;
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.trim() === cat);
-            });
-            document.getElementById('offer-btn').classList.remove('active');
-            document.getElementById('new-btn').classList.remove('active');
+            currentFilter = cat; onlyOffers = false;
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.trim() === cat));
+            if (document.getElementById('offer-btn')) document.getElementById('offer-btn').classList.remove('active');
             filterProducts();
         }
 
         function toggleOffers() {
-            onlyOffers = !onlyOffers;
-            onlyNew = false;
-            currentFilter = "Todos";
+            onlyOffers = !onlyOffers; currentFilter = "Todos";
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.trim() === 'Todos'));
-            document.getElementById('offer-btn').classList.toggle('active', onlyOffers);
-            document.getElementById('new-btn').classList.remove('active');
-            filterProducts();
-        }
-
-        function toggleNew() {
-            onlyNew = !onlyNew;
-            onlyOffers = false;
-            currentFilter = "Todos";
-            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.trim() === 'Todos'));
-            document.getElementById('new-btn').classList.toggle('active', onlyNew);
-            document.getElementById('offer-btn').classList.remove('active');
+            if (document.getElementById('offer-btn')) document.getElementById('offer-btn').classList.toggle('active', onlyOffers);
             filterProducts();
         }
 
         function renderCategories() {
             const container = document.getElementById('category-filters');
-            const cats = ["Todos", ...new Set(products.map(p => p.category))];
-            
-            const html = cats.map(c => `
-                <button onclick="setCategory('${c}')" class="category-btn px-6 py-2 rounded-xl border border-white/5 bg-white/5 text-slate-400 text-[10px] font-bold uppercase tracking-widest transition-all ${c === 'Todos' ? 'active' : ''}">
-                    ${c}
-                </button>
-            `).join('');
-
-            const specialBtns = `
-                <button id="offer-btn" onclick="toggleOffers()" class="btn-promo-fire px-6 py-2 rounded-xl text-white text-[10px] font-black uppercase tracking-widest transition-all">
-                    OFERTAS 🔥
-                </button>
-                <button id="new-btn" onclick="toggleNew()" class="btn-new-launch px-6 py-2 rounded-xl text-white text-[10px] font-black uppercase tracking-widest transition-all">
-                    LANZAMIENTOS 🚀
-                </button>
-            `;
-            
-            container.innerHTML = html + specialBtns;
+            const cats = ["Todos", ...new Set(products.map(p => p.category.trim()))];
+            const html = cats.map(c => `<button onclick="setCategory('${c}')" class="category-btn px-6 py-2 rounded-xl border border-white/5 bg-white/5 text-slate-400 text-[10px] font-bold uppercase tracking-widest transition-all ${c === 'Todos' ? 'active' : ''}">${c}</button>`).join('');
+            container.innerHTML = html + `<button id="offer-btn" onclick="toggleOffers()" class="btn-promo-fire px-6 py-2 rounded-xl text-white text-[10px] font-black uppercase tracking-widest transition-all">OFERTAS 🔥</button>`;
         }
 
-        function sendOrder(name, code, price) {
-            const text = `¡Hola Opportunity Store! Me interesa este producto:\n\n📦 *${name}*\n🆔 *Código:* ${code}\n💰 *Precio:* $${price.toLocaleString('es-AR')}`;
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`);
-        }
-
-        window.onload = () => {
-            renderCategories();
-            renderGrid(products);
-        };
+        window.onload = () => { renderCategories(); renderGrid(products); };
     </script>
 </body>
 </html>
