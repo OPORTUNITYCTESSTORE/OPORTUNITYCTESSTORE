@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Opportunity Ctes Store | Catálogo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -23,12 +23,10 @@
             background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%);
             background-attachment: fixed;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent; /* Mejora tactil en iOS */
         }
 
-        .brand-font {
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
+        .brand-font { font-weight: 800; letter-spacing: -0.02em; }
 
         .glass-card {
             background: var(--card-bg);
@@ -73,13 +71,8 @@
             box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
         }
 
-        .btn-promo-fire {
-            background: linear-gradient(45deg, #f97316, #ef4444);
-        }
-        
-        .btn-new-launch {
-            background: linear-gradient(45deg, #0ea5e9, #2563eb);
-        }
+        .btn-promo-fire { background: linear-gradient(45deg, #f97316, #ef4444); }
+        .btn-new-launch { background: linear-gradient(45deg, #0ea5e9, #2563eb); }
 
         .btn-promo-fire.active, .btn-new-launch.active {
             outline: 2px solid white;
@@ -99,10 +92,7 @@
         #lightbox {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: rgba(2, 6, 23, 0.98);
             backdrop-filter: blur(20px);
             z-index: 3000;
@@ -111,9 +101,7 @@
             touch-action: none;
         }
 
-        #lightbox.active {
-            display: flex;
-        }
+        #lightbox.active { display: flex; }
 
         #lightbox-img {
             max-width: 90%;
@@ -124,16 +112,24 @@
             cursor: grab;
         }
         
-        #lightbox-img:active {
-            cursor: grabbing;
-        }
+        #lightbox-img:active { cursor: grabbing; }
 
+        /* AJUSTE CLAVE: pointer-events none cuando está cerrado */
         #cart-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            max-width: 400px;
+            z-index: 2001;
             transform: translateX(100%);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none; 
         }
         #cart-panel.active {
             transform: translateX(0);
+            pointer-events: auto;
         }
 
         .nav-arrow {
@@ -184,7 +180,8 @@
     </div>
 
     <div id="cart-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] hidden opacity-0 transition-opacity duration-300"></div>
-    <div id="cart-panel" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-slate-950 border-l border-white/10 z-[2001] flex flex-col shadow-2xl">
+    
+    <div id="cart-panel" class="flex flex-col bg-slate-950 border-l border-white/10 shadow-2xl">
         <div class="p-6 border-b border-white/10 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <i class="fa-solid fa-cart-shopping text-orange-500 text-xl"></i>
@@ -391,8 +388,8 @@
             setTransform();
         }
 
-        function openLightbox(productIndex) {
-            const product = products.find(p => p.id === productIndex);
+        function openLightbox(productId) {
+            const product = products.find(p => p.id === productId);
             currentImages = product.images;
             currentIndex = 0;
             updateLightbox();
@@ -513,8 +510,6 @@
             const grid = document.getElementById('product-grid');
             grid.innerHTML = items.map(p => {
                 const discount = p.oldPrice && p.oldPrice > p.price ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100) : null;
-                
-                // INDICADOR DE FOTOS (MODIFICACIÓN SOLICITADA)
                 const hasMoreImages = p.images && p.images.length > 1;
                 const photosBadge = hasMoreImages ? 
                     `<div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-1 rounded-lg border border-white/10 z-20 flex items-center gap-1.5 font-bold">
@@ -529,9 +524,7 @@
                     </div>
                     <div class="relative h-64 bg-slate-900 overflow-hidden group cursor-zoom-in" onclick="openLightbox(${p.id})">
                         <img src="${p.images[0]}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        
                         ${photosBadge}
-
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                             <i class="fa-solid fa-magnifying-glass-plus text-white text-3xl"></i>
                         </div>
@@ -611,9 +604,22 @@
         zoomContainer.onmousedown = (e) => { e.preventDefault(); startX = e.clientX - pointX; startY = e.clientY - pointY; isDragging = true; };
         window.onmousemove = (e) => { if (!isDragging) return; pointX = e.clientX - startX; pointY = e.clientY - startY; setTransform(); };
         window.onmouseup = () => isDragging = false;
-        zoomContainer.ontouchstart = (e) => { if (e.touches.length === 1) { isDragging = true; startX = e.touches[0].clientX - pointX; startY = e.touches[0].clientY - startY; } };
-        window.ontouchmove = (e) => { if (!isDragging || e.touches.length !== 1) return; pointX = e.touches[0].clientX - startX; pointY = e.touches[0].clientY - startY; setTransform(); };
+        
+        zoomContainer.ontouchstart = (e) => { 
+            if (e.touches.length === 1) { 
+                isDragging = true; 
+                startX = e.touches[0].clientX - pointX; 
+                startY = e.touches[0].clientY - pointY; 
+            } 
+        };
+        window.ontouchmove = (e) => { 
+            if (!isDragging || e.touches.length !== 1) return; 
+            pointX = e.touches[0].clientX - startX; 
+            pointY = e.touches[0].clientY - startY; 
+            setTransform(); 
+        };
         window.ontouchend = () => isDragging = false;
+        
         document.getElementById('cart-overlay').onclick = toggleCart;
 
         window.onload = () => { renderCategories(); renderGrid(products); updateCart(); };
